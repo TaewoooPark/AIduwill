@@ -53,6 +53,7 @@ export default function Page() {
         flyers.scrollBy({left:(key==='flyer-next'?1:-1)*flyerStep(),behavior:reduced.matches?'instant':'smooth'});
         return;
       }
+      if(key==='review-prev'||key==='review-next'){reviewsAt(reviewIndex+(key==='review-next'?1:-1));return}
       if(key==='intro'){introMode(true);return}
       if(key==='enter'){introMode(false);window.scrollTo(0,0);one('.menu-btn').focus({preventScroll:true,focusVisible:false});return}
       if(key==='menu'||key==='search'){setMenu(true,key==='search');return}
@@ -65,7 +66,7 @@ export default function Page() {
       if(key.startsWith('group:')){showDeck(Number(key.slice(6)));return}
       setReader(key)
     }
-    const phone = window.matchMedia('(max-width:760px)');
+    const phone = window.matchMedia('(max-width:1023px)');
     const sliders = ['professor', 'shorts'];
     const ending = one('#brand-ending');
     const floating = one('.floating-menu');
@@ -111,6 +112,7 @@ export default function Page() {
       box.addEventListener('scroll',onSwipe,{passive:true});
     });
     function reviewsAt(i){const list=all('.coverflow-item');reviewIndex=(i+list.length)%list.length;
+      one('.review-position').textContent=(reviewIndex+1)+' / '+list.length;
       list.forEach((c,j)=>{let diff=(j-reviewIndex+list.length)%list.length;if(diff>list.length/2)diff-=list.length;c.className='review-card coverflow-item '+(diff < -2?'hidden-left':diff > 2?'hidden-right':({'-2':'prev-2','-1':'prev-1',0:'item-center',1:'next-1',2:'next-2'})[diff]);c.tabIndex=Math.abs(diff)<=2?0:-1})}
     function click(e){const item=e.target.closest('[data-action], [data-slide]');if(!item)return;e.preventDefault();
       if(item.dataset.slide){const [type,i]=item.dataset.slide.split(':');carousel(type,Number(i));return}
@@ -126,7 +128,7 @@ export default function Page() {
     }
     const motion=()=>{
       for(const t of phone.matches ? [] : sliders){const tr=one('.'+t+'-track');if(!tr.parentElement.matches(':hover,:focus-within')&&tr.getBoundingClientRect().top<innerHeight&&tr.getBoundingClientRect().bottom>0){const count=all('.'+t+'-indicators button').filter(x=>!x.hidden).length;carousel(t,(Number(tr.dataset.index)+1)%count)}}
-      const card=one('.coverflow-container');if(card.getBoundingClientRect().top<innerHeight&&card.getBoundingClientRect().bottom>0&&!card.matches(':hover,:focus-within'))reviewsAt(reviewIndex+1)
+      const card=one('.coverflow-container');if(!phone.matches&&card.getBoundingClientRect().top<innerHeight&&card.getBoundingClientRect().bottom>0&&!card.matches(':hover,:focus-within'))reviewsAt(reviewIndex+1)
     };
     function onScroll(){const pin=one('.global-sticky-header').getBoundingClientRect().top<=0;one('.header-container').classList.toggle('is-fixed',pin);floating.classList.toggle('visible',window.scrollY>350 && ending.getBoundingClientRect().top>window.innerHeight-60)}
     function resize(){syncFlyers();for(const t of ['professor','shorts'])carousel(t,Number(one('.'+t+'-track').dataset.index||0));onScroll()}
