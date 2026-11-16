@@ -1,0 +1,8 @@
+node_modules/
+dist/
+AIduwill.html
+/archive/
+/restore/
+.DS_Store
+.env
+.env.*
