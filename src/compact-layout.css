@@ -236,3 +236,32 @@
   #globalIntro.global-intro .content-box .notice { margin-top: 6px; font-size: 12px; }
   #globalIntro.global-intro .btn-gohome { left: auto; right: 14px; transform: none; padding-bottom: 6px; }
 }
+
+/* Three editorial links below the product hero. Let text set the row height. */
+@media (max-width: 1023px) {
+  #globalWrapper .event-banners-section { margin-block: 14px 20px; scroll-margin-top: 98px; }
+  #globalWrapper .event-grid .event-card { height: auto; min-height: 0; padding: 14px; transform: none; }
+  #globalWrapper .event-card-text { height: auto; gap: 6px; }
+  #globalWrapper .event-card-text .slide-tag { margin: 0; font-size: 12px; line-height: 1.35; }
+  #globalWrapper .event-card-text .event-title { margin: 0; font-size: 16px; line-height: 1.4; }
+  #globalWrapper .event-card-text .event-link { margin-top: auto; font-size: 13px; }
+}
+@media (max-width: 599px) {
+  #globalWrapper #main-grid-app .hero-grid-section { margin-bottom: 0; padding-bottom: 0; }
+  #globalWrapper .event-grid {
+    gap: 0; overflow: hidden; border: 1px solid #d8dce2; border-radius: 14px; background: white;
+  }
+  #globalWrapper .event-grid .event-card {
+    padding: 12px clamp(12px, 3.6vw, 18px); border: 0; border-radius: 0; box-shadow: none;
+  }
+  #globalWrapper .event-grid .event-card + .event-card { border-top: 1px solid #eaecf0; }
+  #globalWrapper .event-card-text {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "tag link" "title link"; align-items: center; gap: 3px 10px;
+  }
+  #globalWrapper .event-card-text .slide-tag { grid-area: tag; color: #aa4d10; }
+  #globalWrapper .event-card-text .event-title { grid-area: title; white-space: normal; overflow-wrap: anywhere; }
+  #globalWrapper .event-title br { display: none; }
+  #globalWrapper .event-title .highlight-text::before { content: " "; }
+  #globalWrapper .event-card-text .event-link { grid-area: link; margin: 0; font-size: 12px; white-space: nowrap; }
+}
